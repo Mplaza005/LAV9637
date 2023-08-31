@@ -12,9 +12,10 @@ class CursoController extends Controller
     public function index(){
         
         $cursos =  Curso::orderBy('id', 'desc')->get();
-        return view('cursos.listarcurso', compact('cursos'));
+       
+       return view('cursos.listarcurso', compact('cursos'));
   
-      }
+    }
 
 
     public function create(){
@@ -32,14 +33,22 @@ class CursoController extends Controller
         $request->file('urlPdf')->storeAs('public/imagenes', $nombreArchivo );
         $curso->urlPdf = $nombreArchivo;
         $curso->save();
-        return view('cursos.show',compact('curso'));
+       
+        return redirect()->route('cursos.index');
+       // return view('cursos.show',compact('curso'));
      
       }
 
 
       public function show(Curso $curso){
-        // $temp=Curso::find($curso);
-        return view('cursos.show',compact('curso'));
+        //$temp=Curso::find($curso);
+       return view('cursos.show',compact('curso'));
+     }
+
+     public function destroy (Curso $curso){
+      $curso->delete();
+      return redirect()->route('cursos.index');
+       
      }
 
 
